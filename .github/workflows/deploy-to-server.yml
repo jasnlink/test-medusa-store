@@ -23,4 +23,4 @@ jobs:
           echo "$dev_env_file" > .env
           chmod 600 .env
           rsync -avzr --delete -e "ssh -p ${remote_port} -i ~/.ssh/id_medusa_server_deploy_key -o StrictHostKeyChecking=no" ${local_dir} ${remote_user}@${remote_host}:${remote_dir}
-          rm ~/.ssh/id_github
+          rm ~/.ssh/id_medusa_server_deploy_key
