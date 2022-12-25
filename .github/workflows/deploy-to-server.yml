@@ -24,5 +24,5 @@ jobs:
           echo "$dev_env_file" > .env
           chmod 600 .env
           rsync -avzr --delete -e "ssh -p ${remote_port} -i ~/.ssh/id_medusa_server_deploy_key -o StrictHostKeyChecking=no" ${local_dir} ${remote_user}@${remote_host}:${remote_dir}
-          ssh -i ~/.ssh/id_medusa_server_deploy_key ${remote_user}@${remote_host} -t "cd ${remote_dir} && npm ci && chmod a+x ./develop.sh && ./develop.sh"
+          ssh -i ~/.ssh/id_medusa_server_deploy_key ${remote_user}@${remote_host} -t "cd ${remote_dir} && npm ci && chmod a+x ./develop.sh && exit"
           rm ~/.ssh/id_medusa_server_deploy_key
