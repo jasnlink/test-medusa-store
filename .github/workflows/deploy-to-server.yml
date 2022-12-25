@@ -18,11 +18,12 @@ jobs:
           local_dir: "."
           remote_dir: "/var/medusa-server"
         run: |
+          npm install
           mkdir ~/.ssh
           echo "$remote_key" > ~/.ssh/id_medusa_server_deploy_key
           chmod 600 ~/.ssh/id_medusa_server_deploy_key
           echo "$dev_env_file" > .env
           chmod 600 .env
           rsync -avzr --delete -e "ssh -p ${remote_port} -i ~/.ssh/id_medusa_server_deploy_key -o StrictHostKeyChecking=no" ${local_dir} ${remote_user}@${remote_host}:${remote_dir}
-          ssh -i ~/.ssh/id_medusa_server_deploy_key ${remote_user}@${remote_host} -t "cd ${remote_dir} && npm ci && chmod a+x ./develop.sh && nohup ./develop.sh &"
+          ssh -i ~/.ssh/id_medusa_server_deploy_key ${remote_user}@${remote_host} -t "pm2 stop all && cd ${remote_dir} && chmod a+x ./develop.sh && pm2 start ./develop.sh"
           rm ~/.ssh/id_medusa_server_deploy_key
